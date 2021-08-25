@@ -9,6 +9,8 @@ export default async function handler(
 	const { method } = req;
 	const status: string = req.query.status as string;
 	const search: string = req.query.search as string;
+	const minReward: string = req.query.minReward as string;
+	const maxReward: string = req.query.maxReward as string;
 
 	await dbConnect();
 
@@ -16,7 +18,7 @@ export default async function handler(
 	case 'GET':
 		try {
 			let bounties = [];
-			bounties = await handleFilters(status, search);
+			bounties = await handleFilters(status, search, minReward, maxReward);
 			res.status(200).json({ success: true, data: bounties });
 		} catch (error) {
 			res.status(400).json({ success: false });
@@ -28,8 +30,8 @@ export default async function handler(
 	}
 }
 
-const handleFilters = async (status: string, search: string): Promise<any> => {
-	let filterQuery: {status?: any, $text?: any};
+const handleFilters = async (status: string, search: string, minReward: string, maxReward: string): Promise<any> => {
+	let filterQuery: {status?: any, $text?: any, 'reward.amount'?: any};
 	if (status == null || status == '' || status == 'All') {
 		filterQuery = { status: ['Open', 'In-Progress', 'In-Review', 'Completed'] };
 	} else {
@@ -38,6 +40,16 @@ const handleFilters = async (status: string, search: string): Promise<any> => {
 
 	if (!(search == null || search == '')) {
 		filterQuery['$text'] = { $search: search };
+	}
+
+	if (!(minReward == null || minReward == '')) {
+		const minRewardNumber = parseInt(minReward);
+		filterQuery['reward.amount'] = { $gte: minRewardNumber };
+	}
+
+	if (!(maxReward == null || maxReward == '')) {
+		const maxRewardNumber = parseInt(maxReward);
+		filterQuery['reward.amount'] = { $lte: maxRewardNumber };
 	}
 
 	const isEmpty: boolean = Object.values(filterQuery).every(x => x === null || x === '');

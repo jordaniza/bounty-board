@@ -70,15 +70,15 @@ const SelectFilters = ({ name, options, status, setStatus }: {
 	);
 };
 
-// const MinMaxFilter = ({ name }: { name?: string }): JSX.Element => (
-// 	<>
-// 		{name && <Heading size="xs">{name}</Heading>}
-// 		<HStack my="2">
-// 			<Input placeholder="Min" />
-// 			<Input placeholder="Max" />
-// 		</HStack>
-// 	</>
-// );
+const MinMaxFilter = ({ name }: { name?: string }): JSX.Element => (
+	<>
+		{name && <Heading size="xs">{name}</Heading>}
+		<HStack my="2">
+			<Input placeholder="Min" />
+			<Input placeholder="Max" />
+		</HStack>
+	</>
+);
 
 const HelpLinks = (): JSX.Element => (
 	<HStack>
@@ -118,7 +118,7 @@ const Filters = (props: { status: string, setStatus: any, search: string, setSea
 				<SearchFilter searchValue={props.search} setSearch={props.setSearch}/>
 				{/* <SelectFilters name="Filter Guilds" options={placeholderOptions} /> */}
 				<SelectFilters name="Filter Status" options={filterStatusList} status={props.status} setStatus={props.setStatus} />
-				{/* <MinMaxFilter name="Filter Bounty Value" /> */}
+				<MinMaxFilter name="Filter Bounty Value" />
 				{/* <SelectFilters name="Sort By" options={placeholderOptions} /> */}
 				{/* <SelectFilters name="Group By" options={placeholderOptions} /> */}
 			</Stack>
