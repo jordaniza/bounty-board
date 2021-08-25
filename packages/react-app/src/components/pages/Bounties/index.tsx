@@ -21,6 +21,8 @@ const Bounties = ({ id }: PreFilterProps): JSX.Element => {
 	const [page, setPage] = useState(0);
 	const [status, setStatus] = useState('');
 	const [search, setSearch] = useState('');
+	const [minReward, setMinReward] = useState('');
+	const [maxReward, setMaxReward] = useState('');
 
 	const maxPages = () => {
 		const numFullPages = Math.floor(bounties.length / PAGE_SIZE);
@@ -42,7 +44,7 @@ const Bounties = ({ id }: PreFilterProps): JSX.Element => {
 
 	const { data: bounties, error } = useSWR(
 		id ? `/api/bounties/${id}` :
-			`/api/bounties?status=${status}&search=${search}`,
+			`/api/bounties?status=${status}&search=${search}&minReward=${minReward}&maxReward=${maxReward}`,
 		fetcher
 	);
 
@@ -66,7 +68,10 @@ const Bounties = ({ id }: PreFilterProps): JSX.Element => {
 					<BountyCard {...bounties} />
 				) : (
 					<>
-						<Filters status={status} setStatus={setStatus} search={search} setSearch={setSearch}/>
+						<Filters
+							status={status} setStatus={setStatus} search={search} setSearch={setSearch}
+							maxReward={maxReward} setMaxReward={setMaxReward} minReward={minReward}
+							setMinReward={setMinReward} />
 						<BountyAccordion bounties={paginatedBounties} />
 					</>
 				)}
