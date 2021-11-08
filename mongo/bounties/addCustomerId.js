@@ -1,5 +1,5 @@
 /***
- * Seeding script to add a new `CustomerId` field to all current bounties 
+ * Seeding script to add a new `customerId` field to all current bounties 
  * in the existing database schema.
  * 
  * The default value of this field is set to the Bankless .
@@ -9,7 +9,7 @@ bountyboard.bounties.updateMany(
   {},
   {
     $set: {
-      CustomerId: "834499078434979890"
+      customerId: "834499078434979890"
     }
   }
 );
