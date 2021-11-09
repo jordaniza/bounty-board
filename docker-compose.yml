@@ -1,0 +1,15 @@
+version: "3.0"
+
+services:
+  # react-app:
+  #   build: .
+  #   ports:
+  #     - 3000:3000
+  #   # volumes:
+  #   #   - ./packages/react-app:/app
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/usr/tmp/mongo
